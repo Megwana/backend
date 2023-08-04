@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CloudinaryAppConfig(AppConfig):
+class LikesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'cloudinary_app'
+    name = 'likes'

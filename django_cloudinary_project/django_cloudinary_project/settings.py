@@ -12,6 +12,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+if os.path.exists('env.py'):
+    import env
+
+from .env import Env
+import dj_database_url
+
+SECRET_KEY = Env.SECRET_KEY
+DEBUG = Env.DEBUG == 'True'
+DATABASES = {'default': dj_database_url.config(default=Env.DATABASE_URL)}
+CLOUDINARY_URL = Env.CLOUDINARY_URL
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+}
+
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,14 +39,15 @@ os.environ['DEV'] = '1'
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$&)#@r$qx3605(5ptmvaguz!vc_%2k&#6*d66a0yttz&_0l6^i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['8000-megwana-backend-ftjiq8dnbmg.ws-eu102.gitpod.io']
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-megwana-backend-ftjiq8dnbmg.ws-eu102.gitpod.io'
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +56,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary',
     'django_filters',
     'django.contrib.sites',
     'allauth',
@@ -47,10 +68,14 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
     'rest_framework',
-    'cloudinary_app',
     'rest_framework.authtoken', 
     'dj_rest_auth',
 
+    'comments',
+    'followers',
+    'likes',
+    'posts',
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -87,12 +112,12 @@ WSGI_APPLICATION = 'django_cloudinary_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation

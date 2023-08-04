@@ -21,4 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('profiles/', include('profiles.urls')),
+    path('posts/', include('posts.urls')),
+    path('comments/', include('comments.urls')),
+    path('likes/', include('likes.urls')),
+    path('followers/', include('followers.urls')),
 ]
